@@ -14,11 +14,9 @@ import './App.css';
 function App() {
   return (
     <div className="wrapper">
-      <Container maxWidth="sm">
-      <Box sx={{ my: 2 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Material UI Create React App example
-        </Typography>
+      <Container>
+      <Box>
+        <Typography variant="h4">Mooday</Typography>
       </Box>
       </Container>
 

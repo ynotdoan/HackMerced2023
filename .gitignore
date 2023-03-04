@@ -39,3 +39,6 @@ typings/
 
 # MACOS files
 **/.DS_Store
+
+# ignore sqlite files
+*.sqlite
