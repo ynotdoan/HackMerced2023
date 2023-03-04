@@ -35,18 +35,18 @@ function Login() {
         <p>Log in</p>
       </h1>
 
-      <input type="text" class="username" id = "username" name="username" placeholder="Username"></input>
+      <input type="text" className="username" id = "username" name="username" placeholder="Username"></input>
       <br></br>
-      <input type="password" class="password" id = "password" name="password" placeholder="Password"></input>
+      <input type="password" className="password" id = "password" name="password" placeholder="Password"></input>
       <br></br> 
       <br></br>
-      <button class="login" onclick="login()">Log In</button>
+      <button className="login" onClick="login()">Log In</button>
       <br></br> 
       <br></br>
-      <button class="login" onclick="loadAdmin()">Log In as Admin</button>
+      <button className="login" onClick="loadAdmin()">Log In as Admin</button>
       <br></br> 
       <br></br>
-      <button class="login" onclick="register()">Don't have an Account? Register Now!</button>
+      <button className="login" onClick="register()">Don't have an Account? Register Now!</button>
       <p>{data.name}</p>
       <p>{data.age}</p>
       <p>{data.date}</p>
