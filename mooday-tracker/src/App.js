@@ -41,13 +41,13 @@ useEffect(() => {
       <input type="password" class="password" id = "password" name="password" placeholder="Password"></input>
       <br></br> 
       <br></br>
-      <button class="login" onclick="login()">Log In</button>
+      <button class="login" onClick="login()">Log In</button>
       <br></br> 
       <br></br>
-      <button class="login" onclick="loadAdmin()">Log In as Admin</button>
+      <button class="login" onClick="loadAdmin()">Log In as Admin</button>
       <br></br> 
       <br></br>
-      <button class="login" onclick="register()">Don't have an Account? Register Now!</button>
+      <button class="login" onClick="register()">Don't have an Account? Register Now!</button>
       <p>{data.name}</p>
       <p>{data.age}</p>
       <p>{data.date}</p>
