@@ -1,35 +1,34 @@
-//import logo from './logo.svg';
 import React, { useState, useEffect } from "react";
 import './App.css';
 
-function App() {
+function Login() {
   const [data, setdata] = useState({
     name: "",
     age: 0,
     date: "",
     programming: "",
-});
+  });
 
-// Using useEffect for single rendering
-useEffect(() => {
-    // Using fetch to fetch the api from 
-    // flask server it will be redirected to proxy
-    fetch("/data").then((res) =>
-        res.json().then((data) => {
-            // Setting a data from api
-            setdata({
-                name: data.Name,
-                age: data.Age,
-                date: data.Date,
-                programming: data.programming,
-            });
-        })
-    );
-}, []);
+  // Using useEffect for single rendering
+  useEffect(() => {
+      // Using fetch to fetch the api from 
+      // flask server it will be redirected to proxy
+      fetch("/data").then((res) =>
+          res.json().then((data) => {
+              // Setting a data from api
+              setdata({
+                  name: data.Name,
+                  age: data.Age,
+                  date: data.Date,
+                  programming: data.programming,
+              });
+          })
+      );
+  }, []);
 
   return (
-    <div className="App">
-       <h1>
+    <div className="LoginDiv">
+      <h1>
         <p>Welcome to Mooday Tracker!</p>
         <br></br>
         <br></br>
@@ -56,4 +55,5 @@ useEffect(() => {
   );
 }
 
-export default App;
+
+export default Login;
