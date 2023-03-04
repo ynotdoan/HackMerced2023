@@ -33,3 +33,9 @@ typings/
 
 # Yarn Integrity file
 .yarn-integrity
+
+# vscode
+**/.vscode
+
+# MACOS files
+**/.DS_Store
