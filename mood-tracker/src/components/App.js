@@ -7,7 +7,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 
 import './App.css';
 
@@ -16,10 +15,9 @@ function App() {
     <div className="wrapper">
       <Container>
       <Box>
-        <Typography variant="h4">Mooday</Typography>
+        <Typography variant="h2">Mooday :D</Typography>
       </Box>
       </Container>
-
       <BrowserRouter>
         <Routes>
           <Route path="/dashboard" element={<Dashboard />}/>
