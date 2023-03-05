@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import Dashboard from "./Dashboard";
 import Login from "./Login";
+import Signup from "./Signup";
+import TextPrompt from "./TextPrompt";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Container from '@mui/material/Container';
@@ -22,6 +24,13 @@ function App() {
         <Routes>
           <Route path="/dashboard" element={<Dashboard />}/>
           <Route path="/login" element={<Login />}/>
+
+          <Route path="/survey" element={<Login />}/>
+          <Route path="/survey_why" element={<TextPrompt />}/>
+          <Route path="/survey_for_against" element={<Login />}/>
+          <Route path="/survey_balance" element={<Login />}/>
+
+          <Route path="/signup" element={<Signup />}/>
         </Routes>
       </BrowserRouter>
     </div>
