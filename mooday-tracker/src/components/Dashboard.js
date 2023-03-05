@@ -7,7 +7,9 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 
-const Friend = () => {
+const Friend = (props) => {
+  const imgurl = props.imgurl;
+  const redir = `p/${props.name.toLowerCase()}`;
   return (
     <Box sx={{ paddingLeft:"2vh", paddingRight:"2vh", paddingTop: "1vh", maxWidth: "12vh",border: '1px dashed grey' }}>
     <Grid
@@ -15,15 +17,27 @@ const Friend = () => {
       spacing={0}
       direction="column">
       <center>
-        <img width="50vh" src="https://cdn.discordapp.com/attachments/903127962826719262/1081742329641189386/latest.png" />
+        <img width="50vh" src={imgurl} />
       </center>
-      <Link href="/p/friend" noWrap>Friend</Link> 
+      <Link href={redir} noWrap>{props.name}</Link> 
     </Grid>
   </Box>
   );
 }
 
-const DaySquare = () => {
+const DaySquare = (props) => {
+  const mood = props.mood || 0;
+  let color;
+  if (mood == 0) {
+    color = "#FFFFFF";
+  } else if (mood == 1) {
+    color = "#FF0000";
+  } else if (mood == 2) {
+    color = "#00FFFF";
+  } else if (mood == 3) {
+    color = "#00FF00";
+  }
+  
   return (
   <Box sx={{ paddingLeft:"2vh", paddingRight:"2vh", paddingTop: "1vh", maxWidth: "12vh",border: '1px dashed grey' }}>
     <Grid
@@ -35,14 +49,14 @@ const DaySquare = () => {
         sx={{
           width: "3ch",
           height: "3ch",
-          backgroundColor: 'primary.dark',
+          backgroundColor: color,
           '&:hover': {
             backgroundColor: 'primary.main',
             opacity: [0.9, 0.8, 0.7],
           },
         }} />      
       </center>
-      <Typography>Sun</Typography>
+      <Typography>{props.day}</Typography>
     </Grid>
   </Box>
   );
@@ -50,7 +64,9 @@ const DaySquare = () => {
 
 function Dashboard() {
   const logout = () => {
-
+    window.localStorage.setItem("fullname", "");
+    window.localStorage.setItem("username", "");
+    window.location = "/login";
   }
   const name = window.localStorage.getItem("fullname");
   const username = window.localStorage.getItem("username");
@@ -81,10 +97,10 @@ function Dashboard() {
           display: 'flex',
           alignItems: 'center'
       }}>
-        <Friend />
-        <Friend />
-        <Friend />
-        <Friend />
+        <Friend name="Stanley" imgurl='https://cdn.discordapp.com/attachments/903127962826719262/1081825972921311282/latest.png'/>
+        <Friend name="Jason" imgurl="https://cdn.discordapp.com/attachments/903127962826719262/1081826471905083454/latest.png"/>
+        <Friend name="Tony" imgurl="https://cdn.discordapp.com/attachments/903127962826719262/1081826644953669682/latest.png"/>
+        <Friend name="Bob" imgurl="https://cdn.discordapp.com/attachments/903127962826719262/1081826904459464704/latest.png"/>
       </div>
     </Box>
 
@@ -97,13 +113,13 @@ function Dashboard() {
           display: 'flex',
           alignItems: 'center'
       }}>
-        <DaySquare/>
-        <DaySquare/>
-        <DaySquare/>
-        <DaySquare/>
-        <DaySquare/>
-        <DaySquare/>
-        <DaySquare/>
+        <DaySquare mood="2" day="Mon"/>
+        <DaySquare mood="2" day="Tue"/>
+        <DaySquare mood="3" day="Wed"/>
+        <DaySquare mood="1" day="Thu"/>
+        <DaySquare mood="3" day="Fri"/>
+        <DaySquare mood="3" day="Sat"/>
+        <DaySquare mood="3" day="Sun"/>
       </div>
     </Box>
 

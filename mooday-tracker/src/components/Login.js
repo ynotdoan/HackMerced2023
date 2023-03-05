@@ -11,12 +11,18 @@ function Login() {
         const passwordElem = document.querySelector("#password");
         fetch(`http://localhost:8000/api/login?username=${usernameElem.value}&password=${passwordElem.value}`)
             .then((res) => res.json()).then((res) => {
-                console.log(res);
-                window.localStorage.setItem("username", "Andrew12345");
-                window.localStorage.setItem("fullname", "Andrew Andrew");
+                if (res.code != 200) {
+                    alert("bad username and password");
+                    return;
+                }
+
+                window.localStorage.setItem("username", usernameElem.value);
+                window.localStorage.setItem("fullname", res.fullname);
+                
+                if (res.first_login) {
+                    window.location = "/survey_start";
+                }
             });
-        
-        // window.location = "/dashboard";
     };
 
     return (

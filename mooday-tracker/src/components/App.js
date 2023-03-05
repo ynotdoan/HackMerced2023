@@ -29,6 +29,12 @@ function App() {
           <Route path="/login" element={<Login />}/>
           <Route path="/profile" element={<Profile />}/>
 
+          <Route path="/p/stanley" element={<Profile fullname="Stanley Y." username="stanley123"  imgurl='https://cdn.discordapp.com/attachments/903127962826719262/1081825972921311282/latest.png'/>}/>
+          <Route path="/p/jason" element={<Profile fullname="Jason G." username="JasonG123" imgurl="https://cdn.discordapp.com/attachments/903127962826719262/1081826471905083454/latest.png"/>}/>
+          <Route path="/p/tony" element={<Profile fullname="Tony D." username="Tony123" imgurl="https://cdn.discordapp.com/attachments/903127962826719262/1081826644953669682/latest.png"/>}/>
+          <Route path="/p/bob" element={<Profile fullname="Bob Builder" username="BobBuilder" imgurl="https://cdn.discordapp.com/attachments/903127962826719262/1081826904459464704/latest.png"/>}/>
+
+
           <Route path="/survey_start" element={<SurveyStart/>}/>
           <Route path="/survey_why_happy" element={<TextPrompt next="/survey_done" prompt="Why are you feeling this way?"/>}/>
           <Route path="/survey_why_sad" element={<TextPrompt next="/survey_for_against" prompt="Why are you feeling this way?"/>}/>

@@ -7,21 +7,6 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 
-const Friend = () => {
-  return (
-    <Box sx={{ paddingLeft:"2vh", paddingRight:"2vh", paddingTop: "1vh", maxWidth: "12vh",border: '1px dashed grey' }}>
-    <Grid
-      container
-      spacing={0}
-      direction="column">
-      <center>
-        <img width="50vh" src="https://cdn.discordapp.com/attachments/903127962826719262/1081742329641189386/latest.png" />
-      </center>
-      <Link href="/p/friend" noWrap>Friend</Link> 
-    </Grid>
-  </Box>
-  );
-}
 
 const DaySquare = (props) => {
   const mood = props.mood || 0;
@@ -59,10 +44,9 @@ const DaySquare = (props) => {
   );
 }
 
-function Profile() {
-  const logout = () => {
-
-  }
+function Profile(props) {
+  const username = props.username;
+  const fullname = props.fullname;
 
   return (
     <center>
@@ -72,10 +56,10 @@ function Profile() {
       <div style={{
             display: 'flex',
             alignItems: 'center'
-        }}><img width="80vh" src="https://cdn.discordapp.com/attachments/903127962826719262/1081742329641189386/latest.png" />
+        }}><img width="80vh" src={props.imgurl} />
         <div style={{paddingLeft: "5vh", textAlign: "right"}}>
-        <Typography noWrap>Person fullname</Typography>
-        <Typography noWrap>username123</Typography>
+        <Typography noWrap>{username}</Typography>
+        <Typography noWrap>{fullname}</Typography>
         <Link href="/dashboard" noWrap>Go Back</Link> 
         </div>
         </div>

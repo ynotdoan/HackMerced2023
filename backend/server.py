@@ -32,7 +32,7 @@ def login():
     date = datetime.datetime.now().strftime('%Y-%m-%d')
     first_entry = CheckIn.query.filter_by(date=date).first()
 
-    first_login = not username in logged_in_today
+    first_login = True # not username in logged_in_today
     if first_entry and (username == first_entry.get_user()):
         first_login = False
 
@@ -43,6 +43,7 @@ def login():
     token_map['info'] = (expire_date, username)
 
     return {'code': 200, 
+            "fullname": user.first_name +" "+user.last_name,
             'first_login': first_login}
 
 @app.route('/api/signup', methods=["POST"])
