@@ -1,115 +1,65 @@
-import sqlite3
-from sqlite3 import Error
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import backref, relationship
+from sqlalchemy.ext.hybrid import hybrid_property
+import hashlib
 
+SALT = 'D33ZNUT5'
+SQL_URI = 'sqlite:///database.sqlite'
 
-def openConnection(_dbFile):
-    print("++++++++++++++++++++++++++++++++++")
-    print("Open database: ", _dbFile)
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = SQL_URI
+app.config['SQLALCHEMY_POOL_RECYCLE'] = 299
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = 'SUPERSECRETKEY'
+db = SQLAlchemy(app)
 
-    conn = None
-    try:
-        conn = sqlite3.connect(_dbFile)
-        print("success")
-    except Error as e:
-        print(e)
+class Users(db.Model):
+    __tablename__ = "users"
+    # id = Column(Integer, primary_key=True)
+    username = Column(String(128), unique=True, nullable=False, primary_key=True)
+    hashed_password = Column(String(128), nullable=False)
+    profile_pic = Column(String(512), nullable=False) # SET DEFAULT
+    first_name = Column(String(128), nullable=False)
+    last_name = Column(String(128), nullable=False)
 
-    print("++++++++++++++++++++++++++++++++++")
+    def __repr__(self):
+        return f'<Users(username={self.username})>'
 
-    return conn
-
-def closeConnection(_conn, _dbFile):
-    print("++++++++++++++++++++++++++++++++++")
-    print("Close database: ", _dbFile)
-
-    try:
-        _conn.close()
-        print("success")
-    except Error as e:
-        print(e)
-
-    print("++++++++++++++++++++++++++++++++++")
-
-def dropTable(_conn):
-    print("++++++++++++++++++++++++++++++++++")
-    print("Drop tables")
-
-    _conn.execute("BEGIN")
-    try:
-        sql = "DROP TABLE users"
-        _conn.execute(sql)
-        sql = "DROP TABLE check"
-        _conn.execute(sql)
-        sql = "DROP TABLE friends"
-        _conn.execute(sql)
-
-        _conn.execute("COMMIT")
-        print("successfully deleted tables")
-    except Error as e:
-        _conn.execute("ROLLBACK")
-        print(e)
-
-    print("++++++++++++++++++++++++++++++++++")
-
-def createTable(_conn):
-    print("++++++++++++++++++++++++++++++++++")
-    print("Creating tables")
-
-
-    _conn.execute("BEGIN")
-    try:
-        sql = """CREATE TABLE users(
-                    u_id INTEGER PRIMARY KEY,
-                    u_username varchar(128) NOT NULL,
-                    u_password varchar(128) NOT NULL,
-                    u_profilepic varchar(512) NOT NULL,
-                    u_firstname varchar(128) NOT NULL,
-                    u_lastname varchar(128) NOT NULL)"""
-        _conn.execute(sql)
-
-        sql = """CREATE TABLE checks(
-                    c_id INTEGER,
-                    c_username varchar(128) NOT NULL,
-                    c_date varchar(128) NOT NULL,
-                    c_mood INTEGER NOT NULL,
-                    c_desc varchar(512) NOT NULL,
-                    c_for varchar(512),
-                    c_against varchar(512),
-                    c_balance varchar(512))"""
-        _conn.execute(sql)
-
-        sql = """CREATE TABLE friends(
-                    f_id INTEGER,
-                    f_following INTEGER NOT NULL)"""
-        _conn.execute(sql)
-
-        _conn.execute("COMMIT")
-        print("successfully created tables")
-    except Error as e:
-        _conn.execute("ROLLBACK")
-        print(e)
-
-    print("++++++++++++++++++++++++++++++++++")
-
-
-def main():
-    print("passed!")
-    database = r"data.sqlite"
+    @hybrid_property
+    def password(self):
+        return self.hashed_password
     
-    # create a database connection
-    conn = openConnection(database)
+    @password.setter
+    def password(self, p):
+        p += SALT
+        self.hashed_password = hashlib.sha256(p.encode()).hexdigest()
 
-    with conn:
-        #Delete the tables, used if any table changes or resets are needed
-        #Comment out the dropTable line if not in use
+    def check_password(self, p):
+        p += SALT
+        return self.hashed_password == hashlib.sha256(p.encode()).hexdigest()
 
-        #dropTable(conn)
 
-        #create the tables
-        createTable(conn)
-        
+class CheckIn(db.Model):
+    __tablename__ = "checkins"
+    c_id = Column(Integer, primary_key=True, unique = True)
+    id_user = Column(Integer)
+    username = Column(String(128), ForeignKey('users.username'))
+    date = Column(String(128), nullable=False)
+    mood = Column(Integer, nullable=False)
+    desc = Column(String(512), nullable=False)
+    sup_arg = Column(String(512))
+    opp_arg = Column(String(512))
+    bal_arg = Column(String(512))
 
-    #remove the database connection
-    closeConnection(conn, database)
+    def __repr__(self):
+        return f'<CheckIn(c_id={self.c_id}), username={self.username}, mood={self.mood}>'
 
-if __name__ == '__main__':
-    main()
+class Friends(db.Model):
+    __tablename__ = "friends"
+    id_user = Column(String(128), ForeignKey('users.username'))
+    id_following = Column(String(128), ForeignKey('users.username'))
+
+    def __repr__(self):
+        return f'<Friends(id_user={self.id_user}, id_following={self.id_following})>'
