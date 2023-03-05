@@ -52,6 +52,9 @@ function Dashboard() {
   const logout = () => {
 
   }
+  const name = window.localStorage.getItem("fullname");
+  const username = window.localStorage.getItem("username");
+
   return (
     <center>
     <Container maxWidth="md" sx={{paddingTop:"5vh"}}>
@@ -62,8 +65,8 @@ function Dashboard() {
             alignItems: 'center'
         }}><img width="80vh" src="https://cdn.discordapp.com/attachments/903127962826719262/1081742329641189386/latest.png" />
         <div style={{paddingLeft: "5vh", textAlign: "right"}}>
-        <Typography noWrap>Person Fullname</Typography>
-        <Typography noWrap>username123</Typography>
+        <Typography noWrap>{name}</Typography>
+        <Typography noWrap>{username}</Typography>
         <Link href="/profile" noWrap>View Profile</Link> 
         </div>
         </div>

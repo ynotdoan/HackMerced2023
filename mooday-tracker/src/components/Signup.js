@@ -9,7 +9,25 @@ function Login() {
     const signupAction = () => {
         const usernameElem = document.querySelector("#username");
         const passwordElem = document.querySelector("#password");
-        fetch()
+        const fullnameElem = document.querySelector("#fullname");
+        fetch(`http://localhost:8000/api/signup`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({name: fullnameElem.value, username: usernameElem.value, password: passwordElem.value})
+        })
+            .then((res) => {
+                return res.json()
+            })
+            .then((res) => {
+                const result = res;
+                if (res.code == 200) {
+                    alert("successful creation");
+                } else {
+                    alert("failed acc creation");
+                }
+            })
     };
 
     return (
@@ -26,6 +44,9 @@ function Login() {
             <Grid item xs={4}>
                 <Typography variant="h4" component="h2">Create your account!</Typography>
             </Grid>  
+            <Grid item xs={4}>
+                <TextField sx={{width: "30vh"}} id="fullname" label="full name" variant="standard" />
+            </Grid> 
             <Grid item xs={4}>
                 <TextField sx={{width: "30vh"}} id="username" label="username" variant="standard" />
             </Grid>   

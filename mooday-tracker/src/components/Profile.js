@@ -63,6 +63,7 @@ function Profile() {
   const logout = () => {
 
   }
+
   return (
     <center>
     <Container maxWidth="md" sx={{paddingTop:"5vh"}}>
@@ -73,7 +74,7 @@ function Profile() {
             alignItems: 'center'
         }}><img width="80vh" src="https://cdn.discordapp.com/attachments/903127962826719262/1081742329641189386/latest.png" />
         <div style={{paddingLeft: "5vh", textAlign: "right"}}>
-        <Typography noWrap>Person Fullname</Typography>
+        <Typography noWrap>Person fullname</Typography>
         <Typography noWrap>username123</Typography>
         <Link href="/dashboard" noWrap>Go Back</Link> 
         </div>

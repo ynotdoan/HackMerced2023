@@ -9,7 +9,14 @@ function Login() {
     const loginAction = () => {
         const usernameElem = document.querySelector("#username");
         const passwordElem = document.querySelector("#password");
-        fetch()
+        fetch(`http://localhost:8000/api/login?username=${usernameElem.value}&password=${passwordElem.value}`)
+            .then((res) => res.json()).then((res) => {
+                console.log(res);
+                window.localStorage.setItem("username", "Andrew12345");
+                window.localStorage.setItem("fullname", "Andrew Andrew");
+            });
+        
+        // window.location = "/dashboard";
     };
 
     return (

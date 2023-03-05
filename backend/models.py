@@ -5,7 +5,7 @@ from sqlalchemy.orm import backref, relationship
 from sqlalchemy.ext.hybrid import hybrid_property
 import hashlib
 
-SALT = 'D33ZNUT5'
+SALT = ''
 SQL_URI = 'sqlite:///database.sqlite'
 
 app = Flask(__name__)
@@ -14,6 +14,7 @@ app.config['SQLALCHEMY_POOL_RECYCLE'] = 299
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'SUPERSECRETKEY'
 db = SQLAlchemy(app)
+app.app_context().push()
 
 class Users(db.Model):
     __tablename__ = "users"
@@ -61,6 +62,7 @@ class CheckIn(db.Model):
 
 class Friends(db.Model):
     __tablename__ = "friends"
+    f_id = Column(Integer, primary_key=True, unique = True)
     id_user = Column(String(128), ForeignKey('users.username'))
     id_following = Column(String(128), ForeignKey('users.username'))
 
