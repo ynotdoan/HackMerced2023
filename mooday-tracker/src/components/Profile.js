@@ -24,8 +24,20 @@ const Friend = () => {
 }
 
 const DaySquare = (props) => {
+  const mood = props.mood || 0;
+  let color;
+  if (mood == 0) {
+    color = "#FFFFFF";
+  } else if (mood == 1) {
+    color = "#FF0000";
+  } else if (mood == 2) {
+    color = "#00FFFF";
+  } else if (mood == 3) {
+    color = "#00FF00";
+  }
+  
   return (
-  <Box sx={{ paddingLeft:"0vh", marginRight:"0.2vh", marginBottom: "0.2vh", paddingTop: "0vh", maxWidth: "12vh",border: '1px dashed grey' }}>
+  <Box sx={{ paddingLeft:"0vh", marginRight:"0.2vh", marginBottom: "0.2vh", marginTop: `0vh`, maxWidth: "12vh",border: '1px dashed grey' }}>
     <Grid
       container
       spacing={0}
@@ -35,10 +47,10 @@ const DaySquare = (props) => {
         sx={{
           width: "3ch",
           height: "3ch",
-          backgroundColor: 'primary.dark',
+          backgroundColor: color,
           '&:hover': {
             backgroundColor: 'primary.main',
-            opacity: [0.9, 0.8, 0.7],
+            opacity: [0.9, 0.7, 0.5]
           },
         }} />      
       </center>
@@ -71,23 +83,61 @@ function Profile() {
 
     <Typography style={{marginLeft: "40vh", paddingTop: "-50vh", marginTop:"-10vh", marginBottom:"20vh"}} noWrap>Last 30 Days</Typography>      
 
-    <Box id="week" style={{marginLeft: "60vh", marginTop: "-17vh", marginBottom: "20vh"}}>
-      <div style={{
+    <Box id="week" style={{marginLeft: "60vh", marginTop: "-17vh", marginBottom: "2vh"}}>
+      <div id="cal0" style={{
           display: 'flex',
           alignItems: 'center'
       }}>
-
-        <DaySquare/>
-        <DaySquare/>
-        <DaySquare/>
-        <DaySquare/>
-        <DaySquare/>
-        <DaySquare/>
-        <DaySquare/>
-        <DaySquare/>
-        <DaySquare/>
-        <DaySquare/>
-        
+        <DaySquare mood="1" />
+        <DaySquare mood="2" />
+        <DaySquare mood="3" />
+        <DaySquare mood="1" />
+        <DaySquare mood="0" />
+        <DaySquare mood="0" />
+        <DaySquare mood="0" />
+      </div>
+      <div id="cal1" style={{
+          display: 'flex',
+          alignItems: 'center'
+      }}>
+        <DaySquare mood="0" />
+        <DaySquare mood="0" />
+        <DaySquare mood="0" />
+        <DaySquare mood="0" />
+        <DaySquare mood="0" />
+        <DaySquare mood="0" />
+        <DaySquare mood="0" />
+      </div>
+      <div id="cal2" style={{
+          display: 'flex',
+          alignItems: 'center'
+      }}>
+        <DaySquare mood="0" />
+        <DaySquare mood="0" />
+        <DaySquare mood="0" />
+        <DaySquare mood="0" />
+        <DaySquare mood="0" />
+        <DaySquare mood="0" />
+        <DaySquare mood="0" />
+      </div>
+      <div id="cal3" style={{
+          display: 'flex',
+          alignItems: 'center'
+      }}>
+        <DaySquare mood="0" />
+        <DaySquare mood="0" />
+        <DaySquare mood="0" />
+        <DaySquare mood="0" />
+        <DaySquare mood="0" />
+        <DaySquare mood="0" />
+        <DaySquare mood="0" />
+      </div>
+      <div id="cal4" style={{
+          display: 'flex',
+          alignItems: 'center'
+      }}>
+        <DaySquare mood="0" />
+        <DaySquare mood="0" />
       </div>
     </Box>
 
