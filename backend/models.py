@@ -44,8 +44,8 @@ class Users(db.Model):
 class CheckIn(db.Model):
     __tablename__ = "checkins"
     c_id = Column(Integer, primary_key=True, unique = True)
-    id_user = Column(Integer)
-    username = Column(String(128), ForeignKey('users.username'))
+    user = Column(String(128), ForeignKey('users.username')) 
+    username = relationship('Users', backref=backref('checkins', lazy=True), lazy=True)
     date = Column(String(128), nullable=False)
     mood = Column(Integer, nullable=False)
     desc = Column(String(512), nullable=False)
@@ -55,6 +55,9 @@ class CheckIn(db.Model):
 
     def __repr__(self):
         return f'<CheckIn(c_id={self.c_id}), username={self.username}, mood={self.mood}>'
+    
+    def get_user(self):
+        return self.username.username
 
 class Friends(db.Model):
     __tablename__ = "friends"

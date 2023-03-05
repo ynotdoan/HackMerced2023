@@ -20,11 +20,18 @@ def login():
                 'msg': 'Failed login: Incorrect username or password'
                 }
 
+    date = datetime.today().strftime('%Y-%m-%d')
+    first_entry = CheckIn.query.filter_by(date=date).first()
+
+    if first_entry and (username == first_entry.get_user()):
+        first_login = False
+
     expire_date = (datetime.today()+datetime.timedelta(1)).strftime('%Y-%m-%d')
     token_map['token'] = generate_key()
     token_map['info'] = (expire_date, username)
 
-    return {'code': 200}.update(token_map)
+    return {'code': 200, 
+            'first_login': first_login}.update(token_map)
 
 @app.route('/signup', methods=["POST"])
 def signup():
@@ -59,34 +66,79 @@ def logout(token):
             'msg': 'Successful logout'}
 
 
-@app.route('/check', methods = ["POST"])
-def check_in():
-    answer_mood = request.json() #the mood, result should 1-4
-    answer_description = request.json() # the desc
-    answer_for = request.json() # the for, only for when user is sad 
-    answer_against = request.json() # the against, only when user is sad
-    answer_balance = request.json() # the balance, only when the user is sad, if user neutral result should be NULL
-    id = login.user.get_id
+@app.route('/checkin', methods = ["POST"])
+def create_check_in(token_map):
+    mood = request.json[]
+    description = request.json[]
+    sup_arg = request.json[]
+    opp_arg = request.json[]
+    bal_arg = request.json[]
+    date = datetime.today().strftime('%Y-%m-%d')
 
-    add = CheckIn( user_id = id, date = get_time(), mood = answer_mood, desc = answer_description,
-            fors = answer_for, against = answer_against, balance = answer_balance)
+    add = CheckIn(user_id=id, 
+                  date=date, 
+                  mood=mood, 
+                  desc=description,
+                  sup_arg=sup_arg, 
+                  opp_arg=opp_arg, 
+                  bal_arg=bal_arg)
     
     db.session.add(add)
     db.session.commit()
 
-@app.route('/profile', methods = ["GET"]) #WIP
+    return {'code': 200,
+            'msg': 'new check-in entry added'}
+
+
+@app.route('/profile', methods = ["GET"]) 
 def profile():
     check_user = request.json()
     user_info = Users.query.filter_by(id = check_user).first()
 
-    user_check_in = CheckIn.query.filter_by(c_id = check_user).all()
+    end_date = datetime.today().strftime('%Y-%m-%d')
+    start_date = datetime.datetime.now() - datetime.timedelta(30).strftime('%Y-%m-%d')
+    user_check_ins = CheckIn.query.filter_by(CheckIn.date.between((start_date,end_date))).all()
 
+    data = {}
+    for i in range(len(user_check_ins)):
+        if user_check_ins[i] == 1:
+            data[i] = 1
+        elif user_check_ins[i] == 2:
+            data[i] = 2
+        elif user_check_ins[i] == 3:
+            data[i] = 3
+        else:
+            data[i] = 0 
 
-    data = {"First_Name":user_info.first_name ,
+    data1 = {"First_Name":user_info.first_name ,
                                    "Last_Name": user_info.last_name,
                                    "Username": user_info.username,
-                                   "Profile_Pic": user_info.profile_pic}
+                                   "Profile_Pic": user_info.profile_pic,
+                                   "Calender": data}
+
+    return json.dumps(data1)
     
+
+@app.route('/friend', method = ["GET"])
+def getFriends():
+
+    u_id = request.json()
+
+    friends = Friends.query.filter_by(id_user = u_id).all()
+
+    data = []
+    for friend in friends:
+        friend_info = Users.query.filter_by(id = friend.id_user).first()
+        
+        for i in range(len(friend)):
+            data[i] = {"First_Name":friend_info.first_name ,
+                                   "Last_Name": friend_info.last_name,
+                                   "Username": friend_info.username,
+                                   "Profile_Pic": friend_info.profile_pic,}
+    
+    return json.dumps(data)
+
+
 # Driver code
 if __name__ == '__main__':
     app.run(debug=True)
