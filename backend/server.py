@@ -1,6 +1,62 @@
 from models import app, db, CheckIn, Users, Friends
 from flask import jsonify, request
 import datetime
+from uuid import uuid4
+
+token_map = {'token': None,
+             'info': None}
+
+def generate_key():
+    return str(uuid4())
+
+@app.route('/login', methods = ["GET"])
+def login():
+    username = request.json[]
+    password = request.json[]
+
+    user = Users.query.filter_by(username=username).first()
+    if not user or not user.check_password(password):
+        return {'code': 401,
+                'msg': 'Failed login: Incorrect username or password'
+                }
+
+    expire_date = (datetime.today()+datetime.timedelta(1)).strftime('%Y-%m-%d')
+    token_map['token'] = generate_key()
+    token_map['info'] = (expire_date, username)
+
+    return {'code': 200}.update(token_map)
+
+@app.route('/signup', methods=["POST"])
+def signup():
+    username = request.json[]
+    password = request.json[]
+    profilepic = request.json[]
+    f_name = request.json[]
+    l_name = request.json[]
+
+    user = Users.query.filter_by(username=username).first()
+    if user:
+        return {'code': 400,
+                'msg': 'User already exists.'
+                }
+
+    new_user = Users(username = username, 
+                     hashed_password=password, 
+                     profile_pic=profilepic, 
+                     first_name=f_name, 
+                     last_name=l_name)
+    
+    db.session.add(new_user)
+    db.session.commit()
+    
+    return {'code': 200,
+            'msg': 'Successful account creation.'}
+
+@app.route('/logout', methods=['GET'])
+def logout(token):
+    token_map['token'] = None
+    return {'code': 200,
+            'msg': 'Successful logout'}
 
 
 @app.route('/check', methods = ["POST"])
@@ -17,41 +73,6 @@ def check_in():
     
     db.session.add(add)
     db.session.commit()
-
-@app.route('/login', methods = ["GET"])
-def login():
-    user_check = request.json()
-    password_check = request.json()
-    check = Users.query.filter_by(username = user_check, user_password = password_check).first()
-
-    if not check:
-        #Andrew does some type of pop-up of log in fail
-        pass
-    else:
-        #give token
-        pass
-
-@app.route('/signup', methods = ["POST"])
-def signup():
-    post_username = request.json()
-    post_password = request.json()
-    post_profilepic = request.json()
-    post_fname = request.json()
-    post_lname = request.json()
-
-    add = Users(username = post_username, password = post_password,
-            profile_pic = post_profilepic, first_name = post_fname, last_name = post_lname)
-    
-    db.session.add(add)
-    db.session.commit()
-
-    #reroute user back to login page
-
-@app.route('/logout')
-def logout():
-    #reroute user to login page
-    #remove token
-    pass
 
 @app.route('/profile', methods = ["GET"]) #WIP
 def profile():
