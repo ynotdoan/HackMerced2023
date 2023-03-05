@@ -42,3 +42,6 @@ typings/
 
 # ignore sqlite files
 *.sqlite
+
+# pycache
+**/__pycache__
