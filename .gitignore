@@ -45,3 +45,6 @@ typings/
 
 # pycache
 **/__pycache__
+
+# db file
+instance/
