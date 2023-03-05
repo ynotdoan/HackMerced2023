@@ -1,58 +1,51 @@
 import React, { useState, useEffect } from "react";
-import './App.css';
+import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 function Login() {
-  const [data, setdata] = useState({
-    name: "",
-    age: 0,
-    date: "",
-    programming: "",
-  });
+    const loginAction = () => {
+        const usernameElem = document.querySelector("#username");
+        const passwordElem = document.querySelector("#password");
+        fetch()
+    };
 
-  // Using useEffect for single rendering
-  useEffect(() => {
-      // Using fetch to fetch the api from 
-      // flask server it will be redirected to proxy
-      fetch("/data").then((res) =>
-          res.json().then((data) => {
-              // Setting a data from api
-              setdata({
-                  name: data.Name,
-                  age: data.Age,
-                  date: data.Date,
-                  programming: data.programming,
-              });
-          })
-      );
-  }, []);
+    return (
+        <div className="LoginDiv">
+        <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            style={{ minHeight: '40vh' }}
+        >
 
-  return (
-    <div className="LoginDiv">
-      <h1>
-        <p>Welcome to Mooday Tracker!</p>
-        <br></br>
-        <br></br>
-        <p>Log in</p>
-      </h1>
-
-      <input type="text" className="username" id = "username" name="username" placeholder="Username"></input>
-      <br></br>
-      <input type="password" className="password" id = "password" name="password" placeholder="Password"></input>
-      <br></br> 
-      <br></br>
-      <button className="login" onClick="login()">Log In</button>
-      <br></br> 
-      <br></br>
-      <button className="login" onClick="loadAdmin()">Log In as Admin</button>
-      <br></br> 
-      <br></br>
-      <button className="login" onClick="register()">Don't have an Account? Register Now!</button>
-      <p>{data.name}</p>
-      <p>{data.age}</p>
-      <p>{data.date}</p>
-      <p>{data.programming}</p>
-    </div>
-  );
+            <Grid item xs={4}>
+                <Typography variant="h4" component="h2">Welcome to Mooday Tracker!</Typography>
+            </Grid>  
+            <Grid item xs={4}>
+                <TextField sx={{width: "30vh"}} id="username" label="username" variant="standard" />
+            </Grid>   
+            <Grid item sx={4}>
+                <TextField sx={{width: "30vh"}} id="password" label="password" type="password" variant="standard" />
+            </Grid>  
+            <Grid item sx={{"padding-top": "2vh"}}>
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center'
+                }}>
+                    <Button onClick={loginAction} variant="contained">Login</Button> <Typography sx={{"padding-left": "3ch"}}> or </Typography>
+                    <Link href="/signup" underline="always" sx={{"padding-left": "3ch"}}>
+                        Sign Up
+                    </Link>
+                </div>
+            </Grid>  
+        </Grid> 
+        </div>
+    );
 }
 
 
